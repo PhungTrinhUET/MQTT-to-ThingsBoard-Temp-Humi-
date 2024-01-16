@@ -1,4 +1,4 @@
-# MQTT-to-ThingsBoard-Temp-Humi-
+# MQTT-to-ThingsBoard-Temp-Humi-HTTP API
 Đoạn mã Python này là một ứng dụng đơn giản sử dụng thư viện Paho MQTT và Requests để kết nối và tương tác với một broker MQTT (esp32) và ThingsBoard thông qua giao thức MQTT và HTTP API. Dưới đây là mô tả tổng quan của mã nguồn:
 
 1. **Thiết lập thông tin kết nối MQTT và ThingsBoard:**
