@@ -1,6 +1,33 @@
 # MQTT-to-ThingsBoard-Temp-Humi-
-Sau khi gửi dữ liệu từ thiết bị tới server, bài viết này sẽ sử dụng những dữ liệu đó rồi gửi lên thingsboard để view
-Chương trình này sử dụng thư viện Paho MQTT để kết nối và đọc dữ liệu từ một broker MQTT, sau đó gửi dữ liệu đó lên ThingsBoard thông qua HTTP API 
+Đoạn mã Python này là một ứng dụng đơn giản sử dụng thư viện Paho MQTT và Requests để kết nối và tương tác với một broker MQTT (esp32) và ThingsBoard thông qua giao thức MQTT và HTTP API. Dưới đây là mô tả tổng quan của mã nguồn:
+
+1. **Thiết lập thông tin kết nối MQTT và ThingsBoard:**
+    - Địa chỉ và cổng của broker MQTT (`mqtt_broker_host`, `mqtt_broker_port`).
+    - Các chủ đề MQTT cho nhiệt độ và độ ẩm (`mqtt_temperature_topic`, `mqtt_humidity_topic`).
+    - Địa chỉ và token xác thực của ThingsBoard (`thingsboard_host`, `thingsboard_access_token`).
+
+2. **Biến toàn cục cho dữ liệu nhiệt độ và độ ẩm:**
+    - `current_temperature` và `current_humidity` được sử dụng để lưu trữ giá trị nhiệt độ và độ ẩm từ thông điệp MQTT.
+
+3. **Hàm xử lý sự kiện khi kết nối đến MQTT broker (`on_connect`):**
+    - In thông báo khi kết nối thành công.
+    - Đăng ký đăng ký theo dõi các chủ đề nhiệt độ và độ ẩm.
+
+4. **Hàm xử lý sự kiện khi nhận thông điệp từ MQTT broker (`on_message`):**
+    - Giải mã thông điệp và gán giá trị cho biến `current_temperature` hoặc `current_humidity` tùy thuộc vào chủ đề.
+    - Nếu cả hai giá trị đã được nhận, thì gửi dữ liệu lên ThingsBoard qua HTTP API.
+    - In ra thông báo khi dữ liệu được gửi thành công hoặc thông báo lỗi nếu quá trình gửi thất bại.
+
+5. **Thiết lập MQTT Client:**
+    - Tạo một đối tượng MQTT client và gán các hàm xử lý sự kiện (`on_connect` và `on_message`) cho client.
+
+6. **Kết nối đến MQTT Broker và lặp vô hạn:**
+    - Kết nối đến broker MQTT với địa chỉ, cổng và thời gian giữ kết nối được thiết lập trước.
+    - Bắt đầu một vòng lặp vô hạn để duy trì kết nối và xử lý sự kiện nhận thông điệp từ broker.
+
+Tổng quan, đoạn mã này nhận dữ liệu nhiệt độ và độ ẩm từ thiết bị esp32 thông qua MQTT, sau đó gửi dữ liệu này lên ThingsBoard thông qua HTTP API.
+
+# CHI TIẾT XEM BÊN DƯỚI
 
 # Import những thư viện cần thiết "paho.mqtt.client" cho MQTT
 ```sh
